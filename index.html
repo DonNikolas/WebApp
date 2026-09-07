@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Marathon • Calisthenics</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--accent:#111827;--good:#16a34a;--warn:#d97706}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{position:sticky;top:0;z-index:10;background:rgba(245,247,251,.94);backdrop-filter:blur(10px);padding:14px 16px;border-bottom:1px solid var(--line)}
+.headerrow{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-weight:800;font-size:18px}.pill{font-size:12px;padding:6px 9px;border:1px solid var(--line);border-radius:999px;background:#fff}
+main{max-width:760px;margin:auto;padding:16px 16px 92px}.hero{background:var(--accent);color:white;border-radius:22px;padding:20px;margin-bottom:14px}
+.hero h1{font-size:28px;line-height:1.05;margin:0 0 8px}.hero p{margin:0;color:#d1d5db}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px}.label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}.value{font-size:22px;font-weight:800;margin-top:5px}
+nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:20;padding:8px 8px calc(8px + env(safe-area-inset-bottom))}
+nav button{border:0;background:transparent;padding:9px 12px;border-radius:12px;color:var(--muted);font-weight:700}nav button.active{background:#111827;color:#fff}
+section{display:none}.activeSection{display:block}.sectiontitle{font-size:22px;font-weight:800;margin:10px 0 12px}
+.day{background:#fff;border:1px solid var(--line);border-radius:18px;margin:10px 0;padding:14px}.dayhead{display:flex;justify-content:space-between;gap:10px}.date{font-weight:800}.type{font-size:12px;color:var(--muted)}
+.task{margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}.taskrow{display:flex;align-items:center;gap:10px}
+input[type=checkbox]{width:20px;height:20px}.muted{color:var(--muted);font-size:14px}.small{font-size:13px}.btnrow{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+button.primary,button.secondary{border:0;border-radius:12px;padding:11px 13px;font-weight:800;cursor:pointer}.primary{background:#111827;color:#fff}.secondary{background:#fff;color:#111827;border:1px solid var(--line)!important}
+select,input[type=number],textarea{width:100%;padding:11px;border:1px solid var(--line);border-radius:12px;background:#fff;font:inherit}
+.progress{height:10px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin:9px 0}.bar{height:100%;background:#111827;width:0}
+.kpi{display:flex;justify-content:space-between;margin:7px 0}.list{padding-left:20px}.note{min-height:80px;margin-top:8px}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden}.tablewrap{overflow:auto}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}th{font-size:12px;color:var(--muted)}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}nav{position:static;border:0;background:transparent;justify-content:flex-start;margin:0 auto;max-width:760px}.headerrow{max-width:760px;margin:auto}main{padding-top:8px}}
+</style>
+</head>
+<body>
+<header><div class="headerrow"><div class="brand">Marathon • Calisthenics</div><div class="pill" id="countdown">—</div></div></header>
+
+<main>
+<section id="home" class="activeSection">
+  <div class="hero">
+    <h1 id="todayTitle">Heute</h1>
+    <p id="todaySub">Dein Training wird geladen …</p>
+  </div>
+  <div class="grid">
+    <div class="card"><div class="label">Marathon</div><div class="value" id="daysLeft">—</div><div class="muted">Tage</div></div>
+    <div class="card"><div class="label">Woche</div><div class="value" id="weekNo">—</div><div class="muted">von 16</div></div>
+    <div class="card"><div class="label">Lauf-km</div><div class="value" id="weekKm">—</div><div class="muted">diese Woche geplant</div></div>
+    <div class="card"><div class="label">Gewicht</div><div class="value" id="weightView">65.0</div><div class="muted">kg</div></div>
+  </div>
+  <div class="card">
+    <div class="sectiontitle">Heutige Einheit</div>
+    <div id="todayWorkout"></div>
+    <div class="btnrow"><button class="primary" onclick="markToday()">✓ Heute erledigt</button><button class="secondary" onclick="go('plan')">Plan öffnen</button></div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <div class="sectiontitle">Wochenfortschritt</div>
+    <div class="progress"><div class="bar" id="weekBar"></div></div>
+    <div class="kpi"><span>Erledigte Einheiten</span><b id="weekDone">0 / 5</b></div>
+  </div>
+</section>
+
+<section id="plan">
+  <div class="sectiontitle">Trainingsplan</div>
+  <div class="card">
+    <div class="btnrow">
+      <select id="weekSelect" onchange="renderPlan()"></select>
+      <button class="secondary" onclick="downloadICS()">Kalender (.ics)</button>
+    </div>
+    <div class="muted">Mo Kraft A · Di Lauf · Mi Kraft B · Do/Fr Schule & frei · Sa Lauf · So Long Run</div>
+  </div>
+  <div id="planList"></div>
+</section>
+
+<section id="strength">
+  <div class="sectiontitle">Calisthenics / Gym</div>
+  <div class="card">
+    <p><b>Hauptziel:</b> Weighted Pull-ups + Weighted Dips, ohne den Marathonaufbau zu zerstören.</p>
+    <p class="muted">Nicht bis zum Versagen. Meist 1–2 Wiederholungen im Tank lassen.</p>
+  </div>
+  <div id="strengthCards"></div>
+</section>
+
+<section id="progress">
+  <div class="sectiontitle">Progress</div>
+  <div class="grid">
+    <div class="card"><div class="label">Gewicht</div><div class="value" id="pWeight">65.0 kg</div><button class="secondary" onclick="setWeight()">Eintragen</button></div>
+    <div class="card"><div class="label">Protein</div><div class="value">120–140 g</div><div class="muted">pro Tag</div></div>
+  </div>
+  <div class="card">
+    <div class="sectiontitle">Notizen</div>
+    <textarea id="notes" class="note" placeholder="Wie fühlst du dich? Schlaf, Beine, Hunger, Laufgefühl …"></textarea>
+    <div class="btnrow"><button class="primary" onclick="saveNotes()">Speichern</button></div>
+  </div>
+  <div class="card">
+    <div class="sectiontitle">Grundsätze</div>
+    <ul class="list">
+      <li>Easy Runs wirklich locker.</li>
+      <li>Long Runs langsam steigern und Verpflegung üben.</li>
+      <li>Donnerstag und Freitag bleiben frei.</li>
+      <li>Bei anhaltenden Schmerzen Training stoppen/abklären.</li>
+      <li>4:00 h = ca. 5:41 min/km; aktuell nur Orientierung.</li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<nav>
+  <button id="nav-home" class="active" onclick="go('home')">Heute</button>
+  <button id="nav-plan" onclick="go('plan')">Plan</button>
+  <button id="nav-strength" onclick="go('strength')">Kraft</button>
+  <button id="nav-progress" onclick="go('progress')">Progress</button>
+</nav>
+
+<script>
+const DATA = {"raceDate": "2026-12-28", "startDate": "2026-09-07", "goal": "Marathon ankommen, langfristig Richtung 4:00 h", "marathonPace": "5:41 min/km", "profile": {"height": 183, "weight": 65, "protein": "120–140 g/Tag"}, "plan": [[1, 5, "Easy + Strides", 6, "Long Run", 12, "Einstieg"], [2, 6, "Easy + Strides", 7, "Long Run", 14, "Grundlage"], [3, 6, "Tempo kontrolliert", 7, "Long Run", 15, "Grundlage"], [4, 5, "Easy", 6, "Long Run", 12, "Entlastung"], [5, 7, "4×5 min moderat", 8, "Long Run", 17, "Aufbau"], [6, 7, "3×8 min moderat", 8, "Long Run", 19, "Aufbau"], [7, 8, "5×4 min zügig", 9, "Long Run", 21, "Aufbau"], [8, 6, "Easy", 7, "Long Run", 16, "Entlastung"], [9, 8, "3×2 km moderat", 9, "Long Run", 23, "Marathonbasis"], [10, 8, "Steady 10 km", 10, "Long Run", 25, "Marathonbasis"], [11, 9, "2×3 km moderat", 10, "Long Run", 27, "Peak-Aufbau"], [12, 7, "Easy", 8, "Long Run", 20, "Entlastung"], [13, 9, "5 km Marathon-orientiert", 10, "Long Run", 29, "Peak"], [14, 8, "3 km nahe Marathonanstrengung", 8, "Long Run", 24, "Peak"], [15, 6, "Easy + 4 Steigerungen", 7, "Long Run", 18, "Taper"], [16, 5, "Sehr locker + 4 Steigerungen", 4, "MARATHON", 42.195, "Race Week"]], "strengthA": [["Weighted Pull-ups", "4×4–6", "Hauptübung – 1–2 Reps im Tank"], ["Weighted Dips", "4×5–8", "Hauptübung – sauber, keine Grind-Reps"], ["Chest-supported Row", "3×8–12", "Kontrolliert"], ["Bulgarian Split Squat", "3×8–10/Bein", "Nicht bis Muskelversagen"], ["Core", "3 Sätze", "Hanging knee raise / ab wheel"]], "strengthB": [["Weighted Chin-ups", "3×5–8", "Moderates Zusatzgewicht"], ["Weighted Dips", "3×6–8", "Moderates Zusatzgewicht"], ["Lat Pulldown / Row", "3×8–12", "Kontrolliert"], ["Romanian Deadlift", "3×6–10", "Moderates Gewicht"], ["Pike Push-ups / Schulterpresse", "2–3×8–12", "Technik vor Gewicht"], ["Core", "3 Sätze", "Plank / hollow body"]]};
+const start = new Date(DATA.startDate+"T00:00:00");
+const race = new Date(DATA.raceDate+"T00:00:00");
+const STORAGE = "marathonCalisthenicsV1";
+let state = JSON.parse(localStorage.getItem(STORAGE)||'{"done":{},"weight":65,"notes":""}');
+
+function save(){localStorage.setItem(STORAGE,JSON.stringify(state));}
+function iso(d){return d.toISOString().slice(0,10)}
+function addDays(d,n){let x=new Date(d);x.setDate(x.getDate()+n);return x}
+function fmt(d){return d.toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit'})}
+function weekForDate(d){return Math.floor((d-start)/86400000/7)+1}
+function dateForWeekDay(w,day){return addDays(start,(w-1)*7+day)}
+function workoutForDate(d){
+  const w=weekForDate(d); if(w<1||w>16)return null;
+  const day=(Math.floor((d-start)/86400000))%7;
+  const row=DATA.plan[w-1];
+  if(day===0)return {title:"Calisthenics A",type:"Kraft",details:"Weighted Pull-ups 4×4–6 · Weighted Dips 4×5–8 · Row 3×8–12 · Bulgarian Split Squat 3×8–10 · Core 3 Sätze"};
+  if(day===1)return {title:"Lauf",type:"Running",details:row[1]+" km · "+row[2]};
+  if(day===2)return {title:"Calisthenics B",type:"Kraft",details:"Weighted Chin-ups 3×5–8 · Weighted Dips 3×6–8 · Lat Pulldown/Row 3×8–12 · RDL 3×6–10 · Pike Push-ups 2–3×8–12 · Core"};
+  if(day===3||day===4)return {title:"Ruhetag / Schule",type:"Rest",details:"Kein Training. Schlaf, Essen und Erholung priorisieren."};
+  if(day===5)return {title:"Aerobic Run",type:"Running",details:row[3]+" km · locker/aerob. Woche "+w};
+  if(day===6){
+    if(w===16)return {title:"MARATHON",type:"Race",details:"42,195 km · kontrollierter Start. Verpflegung nach vorher geübter Strategie."};
+    return {title:"Long Run",type:"Running",details:row[5]+" km · sehr locker. Ab ~75 min Kohlenhydrate/Trinken üben."};
+  }
+}
+function doneKey(d){return iso(d)}
+function isDone(d){return !!state.done[doneKey(d)]}
+function toggle(d){const k=doneKey(d);state.done[k]=!state.done[k];save();renderAll()}
+function markToday(){let d=new Date();d.setHours(0,0,0,0);toggle(d)}
+function go(id){
+  document.querySelectorAll('main section').forEach(s=>s.classList.remove('activeSection'));
+  document.getElementById(id).classList.add('activeSection');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('nav-'+id).classList.add('active');
+  if(id==='plan')renderPlan(); if(id==='strength')renderStrength();
+  window.scrollTo(0,0);
+}
+function renderHome(){
+  const now=new Date(); now.setHours(0,0,0,0);
+  const w=weekForDate(now);
+  const days=Math.max(0,Math.ceil((race-now)/86400000));
+  document.getElementById('daysLeft').textContent=days;
+  document.getElementById('countdown').textContent=days+" Tage bis Marathon";
+  document.getElementById('weekNo').textContent=(w>=1&&w<=16?w: w<1?0:16);
+  document.getElementById('weightView').textContent=Number(state.weight||65).toFixed(1);
+  document.getElementById('pWeight').textContent=Number(state.weight||65).toFixed(1)+" kg";
+  const wk=w>=1&&w<=16?DATA.plan[w-1]:null;
+  document.getElementById('weekKm').textContent=wk?(wk[1]+wk[3]+wk[5]):"—";
+  let wt=workoutForDate(now);
+  document.getElementById('todayTitle').textContent=now.toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long'});
+  document.getElementById('todaySub').textContent=wt?wt.title:"Außerhalb des Plans";
+  document.getElementById('todayWorkout').innerHTML=wt?`<div class="taskrow"><input type="checkbox" ${isDone(now)?'checked':''} onchange="toggle(new Date())"><div><b>${wt.title}</b><div class="muted">${wt.type}</div></div></div><p>${wt.details}</p>`:"";
+  let done=0,total=0;
+  if(w>=1&&w<=16){for(let i=0;i<7;i++){let d=dateForWeekDay(w,i);let x=workoutForDate(d);if(x&&x.type!=="Rest"){total++;if(isDone(d))done++;}}}
+  document.getElementById('weekDone').textContent=done+" / "+total;
+  document.getElementById('weekBar').style.width=(total?done/total*100:0)+"%";
+}
+function renderPlan(){
+  const sel=document.getElementById('weekSelect');
+  if(!sel.options.length){DATA.plan.forEach(r=>{let o=document.createElement('option');o.value=r[0];o.textContent="Woche "+r[0]+" · "+r[6];sel.appendChild(o)});}
+  const w=Number(sel.value||weekForDate(new Date())||1); sel.value=w;
+  const box=document.getElementById('planList');box.innerHTML="";
+  for(let i=0;i<7;i++){
+    const d=dateForWeekDay(w,i), wt=workoutForDate(d);
+    const div=document.createElement('div');div.className='day';
+    div.innerHTML=`<div class="dayhead"><div><div class="date">${fmt(d)}</div><div class="type">${wt.type}</div></div><input type="checkbox" ${isDone(d)?'checked':''} onchange="toggle(new Date('${iso(d)}T00:00:00'))"></div><div class="task"><b>${wt.title}</b><p class="muted">${wt.details}</p></div>`;
+    box.appendChild(div);
+  }
+}
+function renderStrength(){
+  const box=document.getElementById('strengthCards');box.innerHTML="";
+  [["A",DATA.strengthA],["B",DATA.strengthB]].forEach(([name,arr])=>{
+    const card=document.createElement('div');card.className='card';card.style.marginTop='12px';
+    card.innerHTML=`<div class="sectiontitle">Einheit ${name}</div>`+arr.map(x=>`<div class="task"><b>${x[0]}</b><div class="muted">${x[1]} · ${x[2]}</div></div>`).join("");
+    box.appendChild(card);
+  });
+}
+function setWeight(){let x=prompt("Gewicht heute (kg)",state.weight||65);if(x!==null&&!isNaN(Number(x))){state.weight=Number(x);save();renderAll()}}
+function saveNotes(){state.notes=document.getElementById('notes').value;save();alert("Gespeichert")}
+function renderProgress(){document.getElementById('notes').value=state.notes||""}
+function renderAll(){renderHome();renderProgress();renderPlan();renderStrength()}
+function downloadICS(){
+  let lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Marathon Calisthenics App//DE","CALSCALE:GREGORIAN"];
+  function stamp(d,h){let x=new Date(d);x.setHours(h,0,0,0);return x.toISOString().replace(/[-:]/g,"").split(".")[0]+"Z"}
+  for(let w=1;w<=16;w++)for(let i=0;i<7;i++){
+    let d=dateForWeekDay(w,i), wt=workoutForDate(d);
+    let h=wt.type==="Kraft"?6:(wt.type==="Rest"?0:18);
+    let start=stamp(d,h), end=stamp(d,h+(wt.type==="Kraft"?1:(wt.type==="Race"?5:1)));
+    lines.push("BEGIN:VEVENT","UID:"+iso(d)+"-"+i+"@marathon-calistenics","DTSTART:"+start,"DTEND:"+end,"SUMMARY:"+wt.title,"DESCRIPTION:"+wt.details.replace(/\n/g," "),"END:VEVENT");
+  }
+  lines.push("END:VCALENDAR");
+  const blob=new Blob([lines.join("\r\n")],{type:"text/calendar"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="marathon-calistenics-2026.ics";a.click();URL.revokeObjectURL(a.href);
+}
+renderAll();
+</script>
+</body>
+</html>
