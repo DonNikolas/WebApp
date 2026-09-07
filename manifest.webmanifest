@@ -1,10 +1,9 @@
 {
-  "name": "Marathon • Calisthenics",
-  "short_name": "Marathon",
-  "start_url": "./",
+  "name": "Marathon • Calisthenics v2",
+  "short_name": "Marathon v2",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#f5f7fb",
   "theme_color": "#111827",
-  "lang": "de",
-  "icons": []
+  "lang": "de"
 }
