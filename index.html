@@ -5,45 +5,57 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#111827">
 <link rel="manifest" href="manifest.webmanifest">
-<title>Marathon • Calisthenics v2</title>
+<title>Marathon • Calisthenics v3</title>
 <style>
 :root{--bg:#f5f7fb;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--accent:#111827;--good:#15803d;--warn:#b45309;--bad:#b91c1c;--blue:#2563eb}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 header{position:sticky;top:0;z-index:20;background:rgba(245,247,251,.95);backdrop-filter:blur(12px);padding:13px 16px;border-bottom:1px solid var(--line)}
 .headerrow{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:900px;margin:auto}.brand{font-weight:900;font-size:18px}.pill{font-size:12px;padding:6px 9px;border:1px solid var(--line);border-radius:999px;background:#fff}
-main{max-width:900px;margin:auto;padding:16px 16px 100px}.hero{background:var(--accent);color:#fff;border-radius:22px;padding:20px;margin-bottom:14px}.hero h1{font-size:28px;line-height:1.05;margin:0 0 8px}.hero p{margin:0;color:#d1d5db}
+main{max-width:900px;margin:auto;padding:16px 16px 100px}.hero{background:var(--accent);color:#fff;border-radius:22px;padding:20px;margin-bottom:14px}.hero h1{font-size:26px;line-height:1.1;margin:0 0 8px}.hero p{margin:0;color:#d1d5db}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;margin:10px 0}.label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}.value{font-size:22px;font-weight:850;margin-top:5px}.small{font-size:13px}.muted{color:var(--muted)}
-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:30;padding:7px 5px calc(7px + env(safe-area-inset-bottom));overflow:auto}
-nav button{border:0;background:transparent;padding:9px 10px;border-radius:12px;color:var(--muted);font-weight:800;white-space:nowrap}nav button.active{background:#111827;color:#fff}
-section{display:none}.activeSection{display:block}.sectiontitle{font-size:23px;font-weight:900;margin:8px 0 12px}
+nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);border-top:1px solid var(--line);display:flex;justify-content:flex-start;z-index:30;padding:7px 5px calc(7px + env(safe-area-inset-bottom));overflow-x:auto}
+nav button{border:0;background:transparent;padding:9px 10px;border-radius:12px;color:var(--muted);font-weight:800;white-space:nowrap;flex:0 0 auto}nav button.active{background:#111827;color:#fff}
+section{display:none}.activeSection{display:block}.sectiontitle{font-size:22px;font-weight:900;margin:8px 0 12px}.subtitle{font-size:15px;font-weight:850;margin:0 0 8px}
 .btnrow{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}button.primary,button.secondary,button.danger{border-radius:12px;padding:11px 13px;font-weight:800;cursor:pointer}button.primary{background:#111827;color:#fff;border:0}button.secondary{background:#fff;color:#111827;border:1px solid var(--line)}button.danger{background:#fff;color:var(--bad);border:1px solid #fecaca}
 select,input[type=number],input[type=date],input[type=time],textarea,input[type=text]{width:100%;padding:10px;border:1px solid var(--line);border-radius:11px;background:#fff;font:inherit}
 label{display:block;font-size:13px;font-weight:700;margin:8px 0 5px}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.progress{height:10px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin:9px 0}.bar{height:100%;background:#111827;width:0}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
-.day{background:#fff;border:1px solid var(--line);border-radius:18px;margin:10px 0;padding:14px}.dayhead{display:flex;justify-content:space-between;gap:10px}.date{font-weight:850}.type{font-size:12px;color:var(--muted)}
-.task{margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}.taskrow{display:flex;align-items:center;gap:10px}input[type=checkbox]{width:20px;height:20px}
+.progressbar{height:10px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin:9px 0}.bar{height:100%;background:#111827;width:0}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.day{background:#fff;border:1px solid var(--line);border-radius:18px;margin:10px 0;padding:14px}.dayhead{display:flex;justify-content:space-between;gap:10px}.date{font-weight:850}
 .tablewrap{overflow:auto;border:1px solid var(--line);border-radius:14px}.settable{width:100%;border-collapse:collapse;background:#fff;min-width:520px}.settable th,.settable td{padding:8px;border-bottom:1px solid var(--line);font-size:12px}.settable th{color:var(--muted);text-align:left}
 .settable input{padding:8px}.chip{display:inline-block;padding:5px 8px;border-radius:999px;background:#f3f4f6;font-size:12px;margin:2px}.score{font-size:38px;font-weight:950}.meter{height:14px;background:#e5e7eb;border-radius:99px;overflow:hidden}.meter>div{height:100%;width:0;background:#111827}
 details{background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px;margin:9px 0}summary{font-weight:850;cursor:pointer}
 hr{border:0;border-top:1px solid var(--line);margin:16px 0}
-.notice{padding:12px;border-radius:14px;background:#f9fafb;border:1px solid var(--line);font-size:13px}.notice.warn{background:#fffbeb;border-color:#fde68a}.notice.good{background:#f0fdf4;border-color:#bbf7d0}
+.notice{padding:12px;border-radius:14px;background:#f9fafb;border:1px solid var(--line);font-size:13px;margin:8px 0}.notice.warn{background:#fffbeb;border-color:#fde68a}.notice.good{background:#f0fdf4;border-color:#bbf7d0}.notice.bad{background:#fef2f2;border-color:#fecaca}
+.tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:999px;font-weight:800;letter-spacing:.02em;margin-left:6px;vertical-align:middle}
+.tag-measured{background:#dbeafe;color:#1e40af}.tag-manual{background:#f3f4f6;color:#374151}.tag-estimate{background:#fef3c7;color:#92400e}.tag-forecast{background:#ede9fe;color:#5b21b6}
+.reasonlist{margin:8px 0 0;padding-left:18px;font-size:13px}.reasonlist li{margin:3px 0}.reasonlist.pos li::marker{color:var(--good)}.reasonlist.neg li::marker{color:var(--bad)}
 a{color:var(--blue)}@media(min-width:720px){.grid{grid-template-columns:repeat(4,1fr)}nav{position:static;border:0;background:transparent;justify-content:flex-start;max-width:900px;margin:auto}.two{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
-<header><div class="headerrow"><div class="brand">Marathon • Calisthenics <span class="muted">v2</span></div><div class="pill" id="countdown">—</div></div></header>
+<header><div class="headerrow"><div class="brand">Marathon • Calisthenics <span class="muted">v3</span></div><div class="pill" id="countdown">—</div></div></header>
 
 <main>
-<section id="home" class="activeSection">
-  <div class="hero"><h1 id="todayTitle">Heute</h1><p id="todaySub">Lade Dashboard …</p></div>
-  <div class="grid">
-    <div class="card"><div class="label">Marathon</div><div class="value" id="dashWeeks">—</div><div class="small muted">Wochen bis zum Rennen</div></div>
-    <div class="card"><div class="label">Plan</div><div class="value" id="dashProgress">—</div><div class="small muted">Workouts erledigt</div></div>
-    <div class="card"><div class="label">Gewicht</div><div class="value" id="dashWeight">—</div><div class="small muted">letzter Eintrag</div></div>
-    <div class="card"><div class="label">Zielzeit</div><div class="value">4:00 h</div><div class="small muted">5:41 min/km</div></div>
+<section id="dashboard" class="activeSection">
+  <div class="hero"><h1 id="heroTitle">Dashboard</h1><p id="heroSub">Lade …</p></div>
+  <div class="card">
+    <div class="subtitle">Marathon Readiness</div>
+    <div class="score" id="readinessScore">—</div>
+    <div class="meter"><div id="readinessMeter" style="width:0"></div></div>
+    <div id="readinessReasons"></div>
   </div>
-  <div class="card"><div class="sectiontitle">Heute</div><div id="todayWorkout"></div></div>
-  <div class="card"><div class="sectiontitle">Ziel-Check</div><div id="quickReality"></div></div>
+  <div class="card">
+    <div class="subtitle">Prognose <span class="tag tag-forecast">Prognose</span></div>
+    <div id="projectionBox"></div>
+  </div>
+  <div class="grid">
+    <div class="card"><div class="label">Diese Woche km</div><div class="value" id="dashWeekKm">—</div><div class="small muted" id="dashWeekKmSub">geplant vs. absolviert</div></div>
+    <div class="card"><div class="label">Long Run (Soll)</div><div class="value" id="dashLongRun">—</div><div class="small muted">diese Woche</div></div>
+    <div class="card"><div class="label">Belastung</div><div class="value" id="dashLoad">—</div><div class="small muted" id="dashLoadSub">grobe Schätzung</div></div>
+    <div class="card"><div class="label">Gewicht</div><div class="value" id="dashWeight">—</div><div class="small muted" id="dashWeightSub">letzter Eintrag</div></div>
+  </div>
+  <div class="card"><div class="subtitle">Nächste Einheit</div><div id="nextWorkout"></div></div>
+  <div class="card"><div class="subtitle">Trainingshinweise</div><div id="warningsBox"></div></div>
 </section>
 
 <section id="plan">
@@ -53,234 +65,122 @@ a{color:var(--blue)}@media(min-width:720px){.grid{grid-template-columns:repeat(4
 </section>
 
 <section id="strength">
-  <div class="sectiontitle">Kraft / Calisthenics</div>
-  <div class="card"><p class="muted small">Jede Serie wird gespeichert. Das System berechnet Volumen, letzte Leistung und eine Progressions-Empfehlung. Ziel: saubere Technik, meist 1–2 RIR.</p><div id="strengthSessions"></div></div>
-  <div class="card"><div class="sectiontitle">Trainingshistorie</div><div id="strengthHistory"></div></div>
+  <div class="sectiontitle">Kraft</div>
+  <div id="deloadBanner"></div>
+  <div class="card"><p class="muted small">Jede Serie wird gespeichert. Ziel: saubere Technik, meist 1–2 RIR — nicht bis zum Muskelversagen.</p><div id="strengthSessions"></div></div>
+  <div class="card"><div class="subtitle">Trainingshistorie</div><div id="strengthHistory"></div></div>
 </section>
 
 <section id="running">
   <div class="sectiontitle">Laufen</div>
   <div class="card">
-    <div class="sectiontitle">Lauf eintragen</div>
+    <div class="subtitle">Lauf eintragen <span class="tag tag-measured">gemessen/manuell</span></div>
     <div class="two"><div><label>Datum</label><input id="runDate" type="date"></div><div><label>Distanz (km)</label><input id="runDist" type="number" step="0.01"></div></div>
-    <div class="three"><div><label>Zeit (min)</label><input id="runTime" type="number" step="0.1"></div><div><label>Ø HF</label><input id="runHr" type="number"></div><div><label>RPE 1–10</label><input id="runRpe" type="number" min="1" max="10"></div></div>
-    <label>Art</label><select id="runType"><option>Easy</option><option>Long Run</option><option>Tempo</option><option>Intervalle</option><option>Test/Race</option></select>
+    <div class="three"><div><label>Zeit (min)</label><input id="runTime" type="number" step="0.1"></div><div><label>Ø HF</label><input id="runHr" type="number"></div><div><label>Max HF</label><input id="runHrMax" type="number"></div></div>
+    <div class="two"><div><label>RPE 1–10</label><input id="runRpe" type="number" min="1" max="10"></div><div><label>Höhenmeter</label><input id="runElev" type="number"></div></div>
+    <label>Art</label><select id="runType"><option>Easy</option><option>Long Run</option><option>Tempo</option><option>Intervalle</option><option>Marathon Pace</option><option>Recovery</option><option>Test/Race</option></select>
     <label>Notiz</label><textarea id="runNote" rows="2"></textarea>
     <div class="btnrow"><button class="primary" onclick="saveRun()">Lauf speichern</button></div>
   </div>
-  <div class="card"><div class="sectiontitle">Lauf-Analyse</div><div id="runAnalysis"></div></div>
-  <div class="card"><div class="sectiontitle">Laufhistorie</div><div id="runHistory"></div></div>
+  <div class="card"><div class="subtitle">Laufdashboard</div><div id="runDashboard"></div></div>
+  <div class="card"><div class="subtitle">Aerobe Effizienz (Easy Runs)</div><div id="aerobicBox"></div></div>
+  <div class="card"><div class="subtitle">Laufhistorie</div><div id="runHistory"></div></div>
 </section>
 
-<section id="calculator">
-  <div class="sectiontitle">Rechner & Ziel-Check</div>
+<section id="marathon">
+  <div class="sectiontitle">Marathon</div>
   <div class="card">
-    <div class="sectiontitle">Deine Daten</div>
-    <div class="three"><div><label>Alter</label><input id="age" type="number" value="19"></div><div><label>Größe (cm)</label><input id="height" type="number" value="183"></div><div><label>Gewicht (kg)</label><input id="weight" type="number" value="65"></div></div>
+    <div class="subtitle">Ziel</div>
+    <div class="small">Rennen: <b id="raceDateText"></b> • Ziel: <b>4:00 h</b> • Zielpace: <b>5:41 /km</b></div>
+  </div>
+  <div class="card">
+    <div class="subtitle">Automatisch erkannte Bestzeiten <span class="tag tag-measured">gemessen</span></div>
+    <div id="autoBestTimes" class="small"></div>
+    <details><summary>Manuelle Bestzeit hinterlegen (falls noch nicht als Lauf erfasst)</summary>
+      <div class="two"><div><label>5 km (min)</label><input id="test5Override" type="number" step="0.1"></div><div><label>10 km (min)</label><input id="test10Override" type="number" step="0.1"></div></div>
+      <div><label>Halbmarathon (min)</label><input id="testHMOverride" type="number" step="0.1"></div>
+      <div class="btnrow"><button class="secondary" onclick="saveOverrides()">Speichern</button></div>
+    </details>
+  </div>
+  <div class="card">
+    <div class="subtitle">Prognose <span class="tag tag-forecast">Prognose</span></div>
+    <div id="marathonProjectionFull"></div>
+  </div>
+  <div class="card">
+    <div class="subtitle">Marathon Readiness <span class="tag tag-estimate">Schätzung</span></div>
+    <div id="marathonReadinessFull"></div>
+  </div>
+  <div class="card">
+    <div class="subtitle">Wochenbericht</div>
+    <div id="weeklyReportBox"></div>
+  </div>
+  <div class="card"><div class="notice">Alle Prognosen sind Schätzungen auf Basis deiner bisherigen Daten — keine Garantie und keine exakte Wissenschaft. Je mehr echte Trainingsdaten vorhanden sind, desto aussagekräftiger werden sie.</div></div>
+</section>
+
+<section id="nutrition">
+  <div class="sectiontitle">Gewicht &amp; Ernährung</div>
+  <div class="card"><div class="subtitle">Gewicht eintragen</div>
+    <div class="two"><div><label>Datum</label><input id="weightDate" type="date"></div><div><label>Gewicht (kg)</label><input id="weightInput" type="number" step="0.1"></div></div>
+    <div class="btnrow"><button class="primary" onclick="saveWeight()">Speichern</button></div>
+  </div>
+  <div class="card"><div class="subtitle">Gewichtsübersicht</div><div id="weightDashboard"></div></div>
+  <div class="card">
+    <div class="subtitle">Profil &amp; Kalorienschätzung <span class="tag tag-estimate">Schätzung</span></div>
+    <div class="three"><div><label>Alter</label><input id="age" type="number" value="19"></div><div><label>Größe (cm)</label><input id="height" type="number" value="183"></div><div><label>Gewicht (kg)</label><input id="weightProfile" type="number" value="65"></div></div>
     <div class="two"><div><label>Geschlecht</label><select id="sex"><option value="m">männlich</option><option value="f">weiblich</option></select></div><div><label>Aktivität</label><select id="activity"><option value="1.45">leicht aktiv</option><option value="1.6" selected>moderat aktiv</option><option value="1.75">sehr aktiv</option><option value="1.9">extrem aktiv</option></select></div></div>
     <div class="two"><div><label>Gewünschte Zunahme (kg/Woche)</label><input id="gainRate" type="number" value="0.25" step="0.05"></div><div><label>Protein (g/kg)</label><input id="proteinRate" type="number" value="1.8" step="0.1"></div></div>
-    <div class="btnrow"><button class="primary" onclick="calculateAll()">Alles berechnen</button></div>
+    <div class="btnrow"><button class="primary" onclick="calculateNutrition()">Berechnen</button></div>
   </div>
   <div id="nutritionResult"></div>
-  <div class="card"><div class="sectiontitle">Marathon-Ziel-Rechner</div>
-    <div class="two"><div><label>Aktueller 5-km-Test (Zeit, min)</label><input id="test5" type="number" step="0.1" placeholder="z.B. 23.5"></div><div><label>Aktueller 10-km-Test (Zeit, min)</label><input id="test10" type="number" step="0.1" placeholder="z.B. 50"></div></div>
-    <div class="two"><div><label>Längster Lauf bisher (km)</label><input id="longest" type="number" value="11"></div><div><label>Wochen-km zuletzt</label><input id="weeklyKm" type="number" value="25"></div></div>
-    <div class="two"><div><label>Letzter Long Run (km)</label><input id="recentLong" type="number" value="11"></div><div><label>Long-Run-Pace (min/km)</label><input id="longPace" type="number" step="0.01" value="5.91"></div></div>
-    <div class="btnrow"><button class="primary" onclick="calculateMarathon()">Marathon-Ziel prüfen</button></div>
-    <div id="marathonResult"></div>
-  </div>
-  <div class="card"><div class="sectiontitle">Was entscheidet?</div>
-    <div class="notice">Der Rechner ist kein medizinisches Urteil. Er kombiniert Wettkampf-Projektion, Umfang, Long-Run-Entwicklung und Plan-Compliance. Wenn die Daten fehlen, wird bewusst konservativ bewertet.</div>
-  </div>
+  <div class="card"><div id="weightHistory"></div></div>
+</section>
+
+<section id="progress">
+  <div class="sectiontitle">Progress</div>
+  <div class="card"><div class="subtitle">Marathon-Projektion über Zeit <span class="tag tag-forecast">Prognose</span></div><div id="chartProjection"></div></div>
+  <div class="card"><div class="subtitle">Readiness-Verlauf <span class="tag tag-estimate">Schätzung</span></div><div id="chartReadiness"></div></div>
+  <div class="card"><div class="subtitle">Wochenkilometer — geplant vs. absolviert</div><div id="chartPlannedActual"></div></div>
+  <div class="card"><div class="subtitle">Long-Run-Entwicklung</div><div id="chartLongRun"></div></div>
+  <div class="card"><div class="subtitle">Pace über Zeit</div><div id="chartPace"></div></div>
+  <div class="card"><div class="subtitle">Herzfrequenz über Zeit</div><div id="chartHr"></div></div>
+  <div class="card"><div class="subtitle">Gewichtskurve</div><div id="chartWeight"></div></div>
+  <div class="card"><div class="subtitle">Kraft-Progression (effektive Last)</div><div id="chartStrength"></div></div>
+  <div class="card"><div class="subtitle">Trainingsbelastung pro Woche <span class="tag tag-estimate">grobe Schätzung</span></div><div id="chartLoad"></div><div id="acwrNote" class="notice"></div></div>
+  <div class="card"><div class="subtitle">Persönliche Bestleistungen</div><div id="prList"></div></div>
 </section>
 
 <section id="garmin">
   <div class="sectiontitle">Garmin Connect</div>
   <div class="card">
-    <div class="notice warn"><b>Wichtig:</b> Die echte automatische Synchronisation ist nicht nur Frontend-Code. Garmin stellt dafür die Garmin Connect Developer Program APIs bereit; die Training API kann strukturierte Workouts und Trainingspläne in Garmin Connect veröffentlichen. Der Zugang ist laut Garmin für Business-/Enterprise-Nutzung vorgesehen und muss beantragt/approved werden. siehe Garmin Connect Developer Program</div>
-    <h3>V2 ist dafür vorbereitet</h3>
+    <div class="notice warn"><b>Wichtig:</b> Die echte automatische Synchronisation ist nicht nur Frontend-Code. Garmin stellt dafür die Garmin Connect Developer Program APIs bereit; der Zugang ist laut Garmin für Business-/Enterprise-Nutzung vorgesehen und muss beantragt/approved werden. Diese App speichert und wird niemals ein Garmin Client Secret im Frontend speichern.</div>
+    <h3>Vorbereitete Architektur</h3>
+    <div class="notice small" style="font-family:monospace;white-space:pre">Frontend → Backend → Garmin OAuth → Garmin Connect APIs</div>
     <ul class="small">
-      <li>Dein Plan hat strukturierte Lauf- und Kraftdaten.</li>
-      <li>Die App kann Workout-Daten als JSON exportieren.</li>
-      <li>Ein späterer Backend-Login kann OAuth 2.0 und die Garmin Training API anbinden.</li>
-      <li>Kein Garmin Client Secret darf in diese statische GitHub-Pages-App eingebaut werden.</li>
+      <li>Strukturierte Lauf- und Kraftdaten liegen bereits im richtigen Format vor.</li>
+      <li>Workout-Daten lassen sich als JSON exportieren.</li>
+      <li>Ein späteres Backend kann OAuth 2.0 + Garmin Training API anbinden, um Workouts zu senden und Aktivitäten zu importieren.</li>
+      <li>Kein Garmin Client Secret darf in dieser statischen GitHub-Pages-App gespeichert werden.</li>
     </ul>
     <div class="btnrow"><button class="secondary" onclick="exportGarminJson()">Workout-Daten als JSON exportieren</button><button class="secondary" onclick="exportICS()">Kalender exportieren</button></div>
   </div>
-  <div class="card">
-    <div class="sectiontitle">Wenn Garmin freigeschaltet ist</div>
-    <ol class="small">
-      <li>Garmin Connect Developer Program beantragen.</li>
-      <li>Backend mit OAuth 2.0 erstellen.</li>
-      <li>User verbindet Garmin Connect.</li>
-      <li>Backend sendet Workouts/Plan über Training API.</li>
-      <li>Garmin Connect synchronisiert kompatible Workouts auf die Uhr.</li>
-    </ol>
-    <p class="small">Die mitgelieferte Datei <code>garmin-integration/server-example.js</code> zeigt die Architektur, enthält aber absichtlich keine echten Zugangsdaten.</p>
-  </div>
+  <div class="card"><p class="small">Die mitgelieferte Datei <code>garmin-integration/server-example.js</code> zeigt die Architektur, enthält aber absichtlich keine echten Zugangsdaten.</p></div>
 </section>
 
 <section id="settings">
-  <div class="sectiontitle">Daten & Einstellungen</div>
-  <div class="card"><div class="sectiontitle">Körpergewicht</div>
-    <div class="two"><div><label>Datum</label><input id="weightDate" type="date"></div><div><label>Gewicht (kg)</label><input id="weightInput" type="number" step="0.1"></div></div>
-    <div class="btnrow"><button class="primary" onclick="saveWeight()">Gewicht speichern</button></div><div id="weightHistory"></div>
+  <div class="sectiontitle">Mehr &amp; Einstellungen</div>
+  <div class="card"><div class="subtitle">Datenexport</div><div class="btnrow"><button class="secondary" onclick="exportData()">Alle Daten als JSON</button><button class="secondary" onclick="importDataPrompt()">JSON importieren</button></div>
+    <div class="btnrow"><button class="secondary" onclick="exportRunsCsv()">Läufe als CSV</button><button class="secondary" onclick="exportStrengthCsv()">Kraft-Sets als CSV</button></div>
+    <div class="btnrow"><button class="danger" onclick="resetAll()">Alles löschen</button></div>
   </div>
-  <div class="card"><div class="sectiontitle">Datenexport</div><div class="btnrow"><button class="secondary" onclick="exportData()">Alle Daten als JSON</button><button class="secondary" onclick="importDataPrompt()">JSON importieren</button><button class="danger" onclick="resetAll()">Alles löschen</button></div></div>
-  <div class="card"><div class="sectiontitle">PWA</div><p class="small muted">Die App läuft lokal im Browser und speichert Daten auf deinem Gerät. Bei GitHub Pages kannst du sie zum Home-Bildschirm hinzufügen.</p></div>
+  <div class="card"><div class="subtitle">Migration</div><div id="migrationNote" class="small muted"></div></div>
+  <div class="card"><div class="subtitle">PWA</div><p class="small muted">Die App läuft lokal im Browser und speichert Daten auf deinem Gerät (localStorage). Bei GitHub Pages kannst du sie zum Home-Bildschirm hinzufügen.</p></div>
 </section>
 </main>
 
 <nav>
-<button class="active" data-tab="home">Heute</button><button data-tab="plan">Plan</button><button data-tab="strength">Kraft</button><button data-tab="running">Laufen</button><button data-tab="calculator">Rechner</button><button data-tab="garmin">Garmin</button><button data-tab="settings">Mehr</button>
+<button class="active" data-tab="dashboard">Dashboard</button><button data-tab="plan">Plan</button><button data-tab="strength">Kraft</button><button data-tab="running">Laufen</button><button data-tab="marathon">Marathon</button><button data-tab="nutrition">Gewicht</button><button data-tab="progress">Progress</button><button data-tab="garmin">Garmin</button><button data-tab="settings">Mehr</button>
 </nav>
 
-<script>
-const RACE='2026-12-28', START='2026-09-07', TARGET=240;
-const KEY='mc_v2';
-const state=JSON.parse(localStorage.getItem(KEY)||'{}');
-state.done=state.done||{}; state.strength=state.strength||[]; state.runs=state.runs||[]; state.weights=state.weights||[]; state.notes=state.notes||{};
-function save(){localStorage.setItem(KEY,JSON.stringify(state)); renderAll();}
-function pad(n){return String(n).padStart(2,'0')}
-function fmtDate(d){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`}
-function dateObj(s){return new Date(s+'T12:00:00')}
-function diffDays(a,b){return Math.round((dateObj(b)-dateObj(a))/86400000)}
-function minToTime(m){if(!isFinite(m))return '—';let h=Math.floor(m/60),x=Math.round(m%60);return h?`${h}:${pad(x)} h`:`${x} min`}
-function pace(m,km){return km>0?m/km:0}
-function paceText(p){if(!p||!isFinite(p))return '—';return `${Math.floor(p)}:${pad(Math.round((p%1)*60))} /km`}
-function isoWeekStart(i){let d=dateObj(START);d.setDate(d.getDate()+i*7);return d}
-const weekData=[
-[[5,'Easy + 4 Strides'],[6,'Easy + 4 Strides'],[12,'Long Run']],
-[[6,'Easy + 4 Strides'],[7,'Easy'],[14,'Long Run']],
-[[6,'Tempo kontrolliert'],[7,'Easy + Strides'],[15,'Long Run']],
-[[5,'Easy'],[6,'Easy'],[12,'Deload Long Run']],
-[[7,'Intervalle leicht'],[8,'Easy'],[17,'Long Run']],
-[[7,'Tempo'],[8,'Easy + Strides'],[19,'Long Run']],
-[[8,'Intervalle'],[9,'Easy'],[21,'Long Run']],
-[[6,'Easy'],[7,'Easy'],[16,'Deload Long Run']],
-[[8,'Tempo'],[9,'Easy'],[23,'Long Run']],
-[[8,'Intervalle/Tempo'],[10,'Easy'],[25,'Long Run']],
-[[9,'Tempo'],[10,'Easy'],[27,'Long Run']],
-[[7,'Easy'],[8,'Easy'],[20,'Deload Long Run']],
-[[9,'Tempo'],[10,'Easy'],[29,'Peak Long Run']],
-[[8,'Marathon Pace kontrolliert'],[8,'Easy'],[24,'Long Run']],
-[[6,'Easy + Strides'],[7,'Easy'],[18,'Taper Long Run']],
-[[5,'Easy'],[4,'Shakeout'],[42.195,'MARATHON 4:00 Ziel']]
-];
-const strengthTemplates={
-A:[['Weighted Pull-ups',4,4,6],['Weighted Dips',4,5,8],['Chest-supported Row',3,8,12],['Bulgarian Split Squat',3,8,10],['Core',3,10,15]],
-B:[['Weighted Chin-ups',3,5,8],['Weighted Dips',3,6,8],['Lat Pulldown / Row',3,8,12],['Romanian Deadlift',3,6,10],['Pike Push-ups / Press',3,8,12],['Core',3,10,15]]
-};
-function weekForDate(s){let n=Math.floor(diffDays(START,s)/7)+1;return Math.max(1,Math.min(16,n))}
-function runWorkout(day,w){let arr=weekData[w-1];let idx=day===2?0:day===6?1:2;return arr[idx]}
-function makePlanDay(d){
- const dow=d.getDay(); const ds=fmtDate(d), w=weekForDate(ds);
- if(dow===1)return {date:ds,type:'strength',name:'Calisthenics A',detail:'Weighted Pull-ups + Weighted Dips',week:w};
- if(dow===3)return {date:ds,type:'strength',name:'Calisthenics B',detail:'Weighted Chin-ups + Weighted Dips',week:w};
- if(dow===2||dow===6||dow===0){let r=runWorkout(dow,w); return {date:ds,type:'run',name:r[1],detail:`${r[0]} km`,km:r[0],week:w}};
- return {date:ds,type:'rest',name:'Pause / Schule',detail:'Regeneration',week:w};
-}
-function getPlanDays(){let out=[];let d=dateObj(START);for(let i=0;i<112;i++){out.push(makePlanDay(d));d.setDate(d.getDate()+1)}return out}
-const plan=getPlanDays();
-
-function renderHome(){
- let now=new Date(); let today=fmtDate(now); let days=Math.max(0,diffDays(today,RACE)); document.getElementById('countdown').textContent=days===0?'RACE DAY':`${days} Tage`;
- let w=weekForDate(today); document.getElementById('dashWeeks').textContent=`${Math.max(0,17-w)} / 16`;
- let completed=Object.values(state.done).filter(Boolean).length; let total=plan.filter(x=>x.type!=='rest').length; document.getElementById('dashProgress').textContent=`${completed}/${total}`;
- let lw=state.weights.at(-1); document.getElementById('dashWeight').textContent=lw?`${lw.weight.toFixed(1)} kg`:'—';
- let wd=plan.find(x=>x.date===today)||plan[0]; document.getElementById('todayTitle').textContent=wd.name;
- document.getElementById('todaySub').textContent=`${wd.date} • Woche ${wd.week} • ${wd.detail}`;
- document.getElementById('todayWorkout').innerHTML=wd.type==='rest'?'<div class="notice">Heute ist bewusst Pause. Schlaf, Essen und Erholung priorisieren.</div>':`<div class="kpi"><span>${wd.type==='run'?'Laufen':'Kraft'}</span><b>${wd.detail}</b></div><div class="btnrow"><button class="primary" onclick="go('${wd.type==='run'?'running':'strength'}')">${wd.type==='run'?'Lauf öffnen':'Training öffnen'}</button><button class="secondary" onclick="toggleDone('${wd.date}')">${state.done[wd.date]?'Als offen markieren':'Als erledigt markieren'}</button></div>`;
- document.getElementById('quickReality').innerHTML=quickReality();
-}
-function quickReality(){let r=marathonCalc(false); return `<div class="score">${r.score}/100</div><div class="meter"><div style="width:${r.score}%"></div></div><p class="small"><b>${r.label}</b> — ${r.summary}</p><div class="small muted">Für eine bessere Aussage: 5-km- oder 10-km-Testzeit eintragen.</div>`}
-function toggleDone(date){state.done[date]=!state.done[date];save()}
-function go(tab){document.querySelector(`nav button[data-tab="${tab}"]`).click()}
-
-function renderPlan(){
- let s=document.getElementById('weekSelect'); if(!s.options.length)for(let i=1;i<=16;i++){let o=document.createElement('option');o.value=i;o.textContent=`Woche ${i}`;s.appendChild(o)}
- let current=weekForDate(fmtDate(new Date())); if(!s.value)s.value=Math.min(16,current);
- let w=+s.value, filter=document.getElementById('planFilter').value;
- let start=isoWeekStart(w-1), days=[];for(let i=0;i<7;i++){let d=new Date(start);d.setDate(start.getDate()+i);days.push(makePlanDay(d))}
- let runs=days.filter(x=>x.type==='run'), km=runs.reduce((a,x)=>a+(x.km||0),0);
- document.getElementById('weekSummary').innerHTML=`<div class="kpi"><span>Woche ${w}</span><b>${km.toFixed(1)} km geplant</b></div><div class="progress"><div class="bar" style="width:${Math.round(days.filter(x=>state.done[x.date]).length/7*100)}%"></div></div><div class="small muted">${runs.length} Läufe • 2 Krafttage • Do/Fr Pause</div>`;
- document.getElementById('planList').innerHTML=days.filter(x=>filter==='all'||x.type===filter).map(x=>`<div class="day"><div class="dayhead"><div><div class="date">${x.date}</div><b>${x.name}</b></div><span class="chip">${x.type}</span></div><div class="muted small">${x.detail}</div><div class="btnrow"><button class="secondary" onclick="toggleDone('${x.date}')">${state.done[x.date]?'✓ Erledigt':'Erledigt markieren'}</button>${x.type==='strength'?'<button class="secondary" onclick="go(\'strength\')">Loggen</button>':''}${x.type==='run'?'<button class="secondary" onclick="go(\'running\')">Lauf loggen</button>':''}</div></div>`).join('');
-}
-document.getElementById('weekSelect').addEventListener('change',renderPlan);document.getElementById('planFilter').addEventListener('change',renderPlan);
-
-function renderStrength(){
- let el=document.getElementById('strengthSessions'); let html='';
- for(const [key,exs] of Object.entries(strengthTemplates)){
-  html+=`<details ${key==='A'?'open':''}><summary>Workout ${key}</summary><div class="small muted">Speichere jede Serie. Bei Erreichen des oberen Rep-Bereichs in allen Arbeitssätzen: kleine Gewichtssteigerung.</div>`;
-  exs.forEach((e,ei)=>{
-   let last=[...state.strength].reverse().find(x=>x.exercise===e[0]);
-   let suggestion=progression(e[0],e[2],e[3]);
-   html+=`<div class="card"><b>${e[0]}</b><div class="small muted">${e[1]} Arbeitssätze • ${e[2]}–${e[3]} Reps</div><div class="small">${last?`Letzte: ${last.weight} kg × ${last.reps} • RIR ${last.rir}`:'Noch keine Historie'} • Empfehlung: <b>${suggestion}</b></div><div class="tablewrap"><table class="settable"><thead><tr><th>Set</th><th>Gewicht kg</th><th>Reps</th><th>RIR</th><th></th></tr></thead><tbody>${Array.from({length:e[1]},(_,i)=>`<tr><td>${i+1}</td><td><input id="w_${key}_${ei}_${i}" type="number" step="0.5" value="${last?.weight??0}"></td><td><input id="r_${key}_${ei}_${i}" type="number" value="${last?.reps??e[2]}"></td><td><input id="q_${key}_${ei}_${i}" type="number" min="0" max="5" value="${last?.rir??2}"></td><td><button class="secondary" onclick="logSet('${e[0]}','${key}',${ei},${i})">+</button></td></tr>`).join('')}</tbody></table></div></div>`;
-  }); html+=`</details>`;
- }
- el.innerHTML=html;
- document.getElementById('strengthHistory').innerHTML=state.strength.length?`<div class="tablewrap"><table class="settable"><tr><th>Datum</th><th>Übung</th><th>kg</th><th>Reps</th><th>RIR</th><th>Volumen</th></tr>${state.strength.slice(-30).reverse().map(x=>`<tr><td>${x.date}</td><td>${x.exercise}</td><td>${x.weight}</td><td>${x.reps}</td><td>${x.rir}</td><td>${(x.weight*x.reps).toFixed(0)}</td></tr>`).join('')}</table></div>`:'<div class="muted small">Noch keine Sets gespeichert.</div>';
-}
-function progression(ex,maxR,minR){
- let arr=state.strength.filter(x=>x.exercise===ex); if(!arr.length)return 'Startgewicht wählen, 2 RIR lassen';
- let last=arr.at(-1), recent=arr.slice(-6); let hit=recent.filter(x=>x.reps>=maxR).length;
- let inc=/Pull-ups|Chin-ups|Dips/.test(ex)?1.25:2.5;
- if(last.rir<=1&&last.reps>=maxR)return `+${inc} kg testen`;
- if(last.reps<minR)return `${last.weight} kg halten/reduzieren`;
- return `${last.weight} kg halten, Reps steigern`;
-}
-function logSet(ex,key,ei,i){let w=+document.getElementById(`w_${key}_${ei}_${i}`).value||0,r=+document.getElementById(`r_${key}_${ei}_${i}`).value||0,rir=+document.getElementById(`q_${key}_${ei}_${i}`).value||0;if(!r)return;state.strength.push({date:fmtDate(new Date()),exercise:ex,weight:w,reps:r,rir});save();alert(`${ex}: ${w} kg × ${r} gespeichert.`)}
-
-function saveRun(){let dist=+runDist.value,time=+runTime.value;if(!dist||!time)return alert('Distanz und Zeit eingeben.');state.runs.push({date:runDate.value||fmtDate(new Date()),dist,time,hr:+runHr.value||null,rpe:+runRpe.value||null,type:runType.value,note:runNote.value});save();runDist.value='';runTime.value='';runHr.value='';runRpe.value='';runNote.value='';}
-function renderRunning(){
- let sorted=[...state.runs].sort((a,b)=>a.date.localeCompare(b.date));let last=sorted.at(-1);
- document.getElementById('runHistory').innerHTML=sorted.length?`<div class="tablewrap"><table class="settable"><tr><th>Datum</th><th>Art</th><th>km</th><th>Zeit</th><th>Pace</th><th>HF</th><th>RPE</th></tr>${sorted.slice(-40).reverse().map(x=>`<tr><td>${x.date}</td><td>${x.type}</td><td>${x.dist}</td><td>${minToTime(x.time)}</td><td>${paceText(pace(x.time,x.dist))}</td><td>${x.hr||'—'}</td><td>${x.rpe||'—'}</td></tr>`).join('')}</table></div>`:'<div class="muted small">Noch keine Läufe gespeichert.</div>';
- let best5=sorted.filter(x=>x.dist>=4.9&&x.dist<=5.2).sort((a,b)=>a.time-b.time)[0],best10=sorted.filter(x=>x.dist>=9.8&&x.dist<=10.3).sort((a,b)=>a.time-b.time)[0];
- let pred5=best5?best5.time:null,pred10=best10?best10.time:null;
- if(pred5)pred10=pred10||predictedTime(pred5,5,10);
- let marathon=pred10?predictedTime(pred10,10,42.195):pred5?predictedTime(pred5,5,42.195):null;
- document.getElementById('runAnalysis').innerHTML=`<div class="grid"><div class="card"><div class="label">Letzter Lauf</div><div class="value">${last?paceText(pace(last.time,last.dist)):'—'}</div></div><div class="card"><div class="label">Beste 5 km</div><div class="value">${best5?minToTime(best5.time):'—'}</div></div><div class="card"><div class="label">Beste 10 km</div><div class="value">${best10?minToTime(best10.time):'—'}</div></div><div class="card"><div class="label">Marathon-Projektion</div><div class="value">${marathon?minToTime(marathon):'—'}</div></div></div><div class="notice">${last?`Letzte Pace ${paceText(pace(last.time,last.dist))}. Für Easy Runs sollte das deutlich lockerer als dein Zieltempo 5:41/km sein.`:'Trage erste Läufe ein, damit die App Trends berechnen kann.'}</div>`;
-}
-function predictedTime(t,d1,d2){return t*Math.pow(d2/d1,1.06)}
-
-function calculateAll(){let age=+document.getElementById('age').value,h=+height.value,w=+weight.value,sexv=sex.value,act=+activity.value,g=+gainRate.value,pr=+proteinRate.value;if(!age||!h||!w)return;
- let bmr=10*w+6.25*h-5*age+(sexv==='m'?5:-161),tdee=bmr*act,surplus=g*7700/7,target=tdee+surplus,protein=w*pr;
- state.profile={age,height:h,weight:w,sex:sexv,activity:act,gainRate:g,proteinRate:pr};localStorage.setItem(KEY,JSON.stringify(state));
- document.getElementById('nutritionResult').innerHTML=`<div class="grid"><div class="card"><div class="label">BMR</div><div class="value">${Math.round(bmr)} kcal</div></div><div class="card"><div class="label">TDEE</div><div class="value">${Math.round(tdee)} kcal</div></div><div class="card"><div class="label">Ziel kcal</div><div class="value">${Math.round(target)} kcal</div></div><div class="card"><div class="label">Protein</div><div class="value">${Math.round(protein)} g</div></div></div><div class="notice">Bei ${g.toFixed(2)} kg/Woche entsprechen die theoretischen +${Math.round(surplus)} kcal/Tag ungefähr diesem Überschuss. Beim Marathontraining kann der reale Bedarf deutlich schwanken – Gewichtstrend wöchentlich beobachten und nachjustieren.</div>`;
- calculateMarathon();
-}
-function marathonCalc(render=true){
- let t5=+test5.value||null,t10=+test10.value||null,longest=+document.getElementById('longest').value||0,weekly=+document.getElementById('weeklyKm').value||0,recentLong=+document.getElementById('recentLong').value||0,longP=+document.getElementById('longPace').value||0;
- let pred=t10?predictedTime(t10,10,42.195):t5?predictedTime(t5,5,42.195):null;
- let score=35;
- if(pred){let diff=pred-TARGET;score+=Math.max(-35,Math.min(35,35-diff*1.2))}
- else score-=10;
- score+=Math.min(15,Math.max(0,(weekly-25)*0.35));
- score+=Math.min(15,Math.max(0,(recentLong-15)*0.8));
- if(longest<15)score-=10;
- let compliance=Object.values(state.done).filter(Boolean).length;
- score+=Math.min(10,compliance/20);
- score=Math.round(Math.max(0,Math.min(100,score)));
- let label=score>=80?'realistisch / gute Chance':score>=65?'ambitioniert, aber plausibel':score>=45?'derzeit eher unsicher':'aktuell nicht realistisch';
- let summary=pred?`Projektion ca. ${minToTime(pred)}. Ziel 4:00 h benötigt 5:41/km.`:'Noch keine belastbare Wettkampf-Projektion. 5-km- oder 10-km-Test fehlt.';
- if(longest<20)summary+=' Der Long Run ist noch deutlich unter Marathon-spezifischem Umfang.';
- if(weekly<30)summary+=' Der aktuelle Wochenumfang ist noch niedrig.';
- return {score,label,summary,pred};
-}
-function calculateMarathon(){let r=marathonCalc(true);document.getElementById('marathonResult').innerHTML=`<div class="score">${r.score}/100</div><div class="meter"><div style="width:${r.score}%"></div></div><h3>${r.label}</h3><p>${r.summary}</p><div class="two"><div class="card"><div class="label">Riegel-Projektion</div><div class="value">${r.pred?minToTime(r.pred):'—'}</div></div><div class="card"><div class="label">Zielpace</div><div class="value">5:41 /km</div></div></div>`}
-function saveWeight(){let d=weightDate.value||fmtDate(new Date()),w=+weightInput.value;if(!w)return;state.weights.push({date:d,weight:w});state.weights.sort((a,b)=>a.date.localeCompare(b.date));save()}
-function renderWeights(){document.getElementById('weightHistory').innerHTML=state.weights.length?`<div class="tablewrap"><table class="settable"><tr><th>Datum</th><th>kg</th></tr>${state.weights.slice(-30).reverse().map(x=>`<tr><td>${x.date}</td><td>${x.weight.toFixed(1)}</td></tr>`).join('')}</table></div>`:'<div class="muted small">Noch keine Gewichte.</div>'}
-function exportData(){download('marathon-calisthenics-v2-data.json',JSON.stringify(state,null,2),'application/json')}
-function exportGarminJson(){let payload={generatedAt:new Date().toISOString(),race:RACE,targetMarathonMinutes:240,workouts:plan.filter(x=>x.type!=='rest').map(x=>({date:x.date,type:x.type,name:x.name,details:x.detail,week:x.week}))};download('garmin-training-payload.json',JSON.stringify(payload,null,2),'application/json')}
-function exportICS(){let lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Marathon Calisthenics v2//DE'];for(const x of plan.filter(x=>x.type!=='rest')){let dt=x.date.replaceAll('-','');lines.push('BEGIN:VEVENT',`UID:${x.date}-${x.name.replaceAll(' ','')}-mc2`,`DTSTART;VALUE=DATE:${dt}`,`SUMMARY:${x.name}`,`DESCRIPTION:${x.detail} | Woche ${x.week}`,'END:VEVENT')}lines.push('END:VCALENDAR');download('marathon-calisthenics-v2.ics',lines.join('\\r\\n'),'text/calendar')}
-function download(name,data,type){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-function importDataPrompt(){let raw=prompt('JSON hier einfügen:');if(!raw)return;try{let x=JSON.parse(raw);Object.assign(state,x);save();alert('Import erfolgreich.')}catch(e){alert('Ungültiges JSON.')}}
-function resetAll(){if(confirm('Wirklich alle lokalen Daten löschen?')){localStorage.removeItem(KEY);location.reload()}}
-
-document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('main section').forEach(s=>s.classList.remove('activeSection'));document.getElementById(b.dataset.tab).classList.add('activeSection');renderAll()}));
-function renderAll(){renderHome();renderPlan();renderStrength();renderRunning();renderWeights();document.getElementById('runDate').value=document.getElementById('runDate').value||fmtDate(new Date());document.getElementById('weightDate').value=document.getElementById('weightDate').value||fmtDate(new Date());}
-if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
-renderAll();
-</script>
+<script src="app.js"></script>
 </body>
 </html>
